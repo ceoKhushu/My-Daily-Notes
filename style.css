@@ -5,6 +5,10 @@ body {
     padding: 0;
     background-color: #fafafa;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
 }
 
 header {
@@ -36,7 +40,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-input[type="text"], textarea, input[type="file"] {
+input[type="text"], input[type="file"] {
     padding: 10px;
     margin: 10px;
     width: 100%;
@@ -46,6 +50,10 @@ input[type="text"], textarea, input[type="file"] {
 
 #feed {
     padding: 20px;
+    width: 60%;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 #newPost {
@@ -64,15 +72,53 @@ footer {
     color: gray;
 }
 
-.post {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: white;
+/* Chat List and Help Section Styles */
+#chatSection {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    width: 250px;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-top-right-radius: 10px;
+    display: none;
 }
 
-.post img {
-    width: 100%;
-    height: auto;
+#chatList {
+    margin-bottom: 20px;
+}
+
+#chatList h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+#chatList ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#chatList ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#helpSection {
     margin-top: 10px;
+    font-size: 0.9em;
+}
+
+#themeToggle {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#themeToggle:hover {
+    background-color: #0056b3;
 }
