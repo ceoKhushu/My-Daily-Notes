@@ -57,3 +57,12 @@ li {
 #new-feature:hover {
   background-color: #45a049;
 }
+body.light {
+  background-color: white;
+  color: black;
+}
+
+body.dark {
+  background-color: #333;
+  color: white;
+}
