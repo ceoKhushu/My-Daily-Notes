@@ -26,6 +26,10 @@ function loadNotes() {
     notes.forEach((note, index) => {
         const li = document.createElement('li');
         li.textContent = note;
+        document.getElementById("new-feature").addEventListener("click", function() {
+  alert("New feature coming soon!");
+});
+
 
         // Add a delete button for each note
         const deleteBtn = document.createElement('button');
