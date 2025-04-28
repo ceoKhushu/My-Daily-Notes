@@ -2,57 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soul Talk - By Khushwant Yadav</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1 class="main-heading">Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
-        <p class="intro-text">A place to connect, share, and grow with your friends.</p>
+        <h1>Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
+        <p>Connect, Share, and Explore!</p>
     </header>
 
-    <section id="registration">
+    <section id="loginSection">
         <input type="text" id="username" placeholder="Enter username">
         <button onclick="registerUser()">Register</button>
     </section>
 
-    <section id="home" style="display:none;">
-        <div class="top-buttons">
-            <button onclick="showPostArea()">Create Post</button>
-            <button onclick="showProfile()">My Profile</button>
-            <button onclick="showFriends()">Friends</button>
-            <button onclick="showChat()">Chat</button>
-            <button onclick="showSettings()">Settings</button>
-        </div>
-
+    <section id="appSection" style="display:none;">
+        <!-- Feed Section -->
         <div id="feed"></div>
 
-        <div id="postArea" style="display:none;">
-            <textarea id="postText" placeholder="Write a caption..."></textarea><br>
-            <input type="file" id="postImage" accept="image/*"><br>
+        <!-- Post Creation Section -->
+        <div id="postCreation" style="display:none;">
+            <textarea id="newPostText" placeholder="What's on your mind?"></textarea><br>
+            <input type="file" id="newPostImage" accept="image/*"><br>
             <button onclick="createPost()">Post</button>
         </div>
 
+        <!-- Profile Section -->
         <div id="profile" style="display:none;">
-            <h2>My Profile</h2>
-            <div id="myPosts"></div>
+            <h2>Your Profile</h2>
+            <div id="userPosts"></div>
         </div>
 
+        <!-- Friends Section -->
         <div id="friends" style="display:none;">
-            <h2>Friends List</h2>
-            <input type="text" id="friendName" placeholder="Friend's Username">
+            <h2>Friends</h2>
+            <input type="text" id="friendInput" placeholder="Friend's Username">
             <button onclick="addFriend()">Add Friend</button>
-            <ul id="friendsList"></ul>
+            <ul id="friendList"></ul>
         </div>
 
+        <!-- Chat Section -->
         <div id="chat" style="display:none;">
             <h2>Private Chat</h2>
-            <input type="text" id="message" placeholder="Type message">
+            <textarea id="messageText" placeholder="Type a message..."></textarea><br>
             <button onclick="sendMessage()">Send</button>
             <div id="chatMessages"></div>
         </div>
 
+        <!-- Settings Section -->
         <div id="settings" style="display:none;">
             <h2>Settings</h2>
             <button onclick="toggleTheme()">Toggle Theme</button>
@@ -63,26 +62,6 @@
     <footer>
         <p>Made with ❤️ by Khushwant Yadav</p>
     </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
-
-        <ul id="notesList"></ul>
-
-        <h2>Friends</h2>
-        <input type="text" id="friendUsername" placeholder="Enter friend's username">
-        <button onclick="addFriend()">Add Friend</button>
-        <ul id="friendsList"></ul>
-
-        <h2>Private Chat</h2>
-        <input type="text" id="message" placeholder="Enter message">
-        <button onclick="sendMessage()">Send Message</button>
-        <div id="chatMessages"></div>
-
-        <!-- New Feature Button -->
-        <button id="new-feature">New Feature</button>
-    </div>
 
     <script src="script.js"></script>
 </body>
