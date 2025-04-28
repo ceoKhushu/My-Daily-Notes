@@ -45,3 +45,15 @@ li {
     padding: 10px;
     border-radius: 4px;
 }
+
+#new-feature {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#new-feature:hover {
+  background-color: #45a049;
+}
