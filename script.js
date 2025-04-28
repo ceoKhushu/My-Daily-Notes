@@ -1,88 +1,96 @@
 // Store posts and user data in localStorage
 let currentUsername = "";
 let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-// On Page Load
-window.onload = function() {
-    const username = localStorage.getItem("username");
-    if (username) {
-        currentUsername = username;
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("appSection").style.display = "block";
-        loadProfile();
-        loadFeed();
-    }
-};
-
-// Register User
+// Register the user
 function registerUser() {
     const username = document.getElementById("username").value;
     if (username) {
-        localStorage.setItem("username", username);
         currentUsername = username;
+        localStorage.setItem("username", currentUsername); // Store username in localStorage
+        users.push({ username: currentUsername });
+        localStorage.setItem("users", JSON.stringify(users)); // Save users
         alert("Registration successful!");
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("appSection").style.display = "block";
+        document.getElementById("loginSection").style.display = "none"; // Hide login
+        document.getElementById("appSection").style.display = "block"; // Show app section
         loadProfile();
-        loadFeed();
+        loadPosts();
+        displayChatSection();
     } else {
         alert("Please enter a username!");
     }
 }
 
-// Load User Profile
+// Logout
+function logout() {
+    localStorage.removeItem("username");
+    document.getElementById("loginSection").style.display = "block"; // Show login
+    document.getElementById("appSection").style.display = "none"; // Hide app section
+}
+
+// Load Profile
 function loadProfile() {
-    const profileDiv = document.getElementById("profileInfo");
-    profileDiv.innerHTML = `<p>Welcome, <strong>${currentUsername}</strong></p>`;
+    const profileInfo = document.getElementById("profileInfo");
+    profileInfo.innerHTML = `<p>Welcome, ${currentUsername}!</p>`;
 }
 
-// Load Feed (Posts from users)
-function loadFeed() {
-    const postsDiv = document.getElementById("posts");
-    postsDiv.innerHTML = "";
-    posts.forEach(post => {
-        const postDiv = document.createElement("div");
-        postDiv.classList.add("post");
-        postDiv.innerHTML = `
-            <strong>${post.username}</strong>
-            <p>${post.text}</p>
-        `;
-        if (post.image) {
-            const img = document.createElement("img");
-            img.src = post.image;
-            postDiv.appendChild(img);
-        }
-        postsDiv.appendChild(postDiv);
-    });
-}
-
-// Create a New Post
+// Create Post (Image Only)
 function createPost() {
-    const text = document.getElementById("newPostText").value;
-    const image = document.getElementById("newPostImage").files[0];
-    
-    if (text || image) {
+    const postImage = document.getElementById("newPostImage").files[0];
+    if (postImage) {
         const reader = new FileReader();
-        reader.onloadend = function() {
-            posts.push({
-                username: currentUsername,
-                text: text,
-                image: reader.result || null
-            });
-            localStorage.setItem("posts", JSON.stringify(posts));
-            document.getElementById("newPostText").value = "";
-            document.getElementById("newPostImage").value = "";
-            loadFeed();
+        reader.onloadend = function () {
+            const post = {
+                image: reader.result,
+                username: currentUsername
+            };
+            posts.push(post);
+            localStorage.setItem("posts", JSON.stringify(posts)); // Save posts to localStorage
+            loadPosts();
         };
-        if (image) reader.readAsDataURL(image);
-        else loadFeed();
+        reader.readAsDataURL(postImage); // Read the image file
     } else {
-        alert("Please add text or an image to your post!");
+        alert("Please select an image to post!");
     }
 }
 
-// Logout and Return to Registration
-function logout() {
-    localStorage.removeItem("username");
-    window.location.reload();
+// Load Posts
+function loadPosts() {
+    const postsContainer = document.getElementById("posts");
+    postsContainer.innerHTML = "";
+    posts.forEach(post => {
+        const postDiv = document.createElement("div");
+        postDiv.classList.add("post");
+        const postImage = document.createElement("img");
+        postImage.src = post.image;
+        postDiv.appendChild(postImage);
+        postsContainer.appendChild(postDiv);
+    });
 }
+
+// Display Chat Section
+function displayChatSection() {
+    const chatSection = document.getElementById("chatSection");
+    chatSection.style.display = "block";
+}
+
+// Toggle Theme (Light/Dark)
+function toggleTheme() {
+    const currentTheme = document.body.classList.contains("dark") ? "dark" : "light";
+    if (currentTheme === "dark") {
+        document.body.classList.remove("dark");
+        document.body.classList.add("light");
+        localStorage.setItem("theme", "light");
+    } else {
+        document.body.classList.remove("light");
+        document.body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+    }
+}
+
+// Apply Theme on Load
+window.onload = function () {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.classList.add(savedTheme);
+};
