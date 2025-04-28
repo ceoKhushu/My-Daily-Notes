@@ -1,39 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Notes App</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to CSS file -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Website - By Khushwant Yadav</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Registration Form -->
-  <div id="registration">
-    <h2>Register</h2>
-    <input type="text" id="username" placeholder="Enter your username" />
-    <button onclick="registerUser()">Register</button>
-  </div>
 
-  <!-- Friends Section -->
-  <div id="friends">
-    <h2>Friends</h2>
-    <input type="text" id="friendUsername" placeholder="Enter friend's username" />
-    <button onclick="addFriend()">Add Friend</button>
-    <ul id="friendsList"></ul>  <!-- Show list of friends -->
-  </div>
+    <!-- Welcome Heading -->
+    <h1>Welcome to Notes Website - By Khushwant Yadav</h1>
 
-  <!-- Private Chat Section -->
-  <div id="chat">
-    <h2>Private Chat</h2>
-    <input type="text" id="message" placeholder="Type your message" />
-    <button onclick="sendMessage()">Send</button>
-    <div id="chatMessages"></div>  <!-- Display messages -->
-  </div>
+    <!-- Theme Toggle Button -->
+    <button onclick="toggleTheme()" id="themeToggleBtn">Toggle Theme</button>
 
-  <!-- Theme Toggle Button -->
-  <button id="themeToggle" onclick="toggleTheme()">Toggle Theme</button>
+    <!-- Registration Section -->
+    <div id="registration">
+        <h2>Register</h2>
+        <input type="text" id="username" placeholder="Enter your username">
+        <button onclick="registerUser()">Register</button>
+    </div>
 
-  <!-- Link to JavaScript file -->
-  <script src="script.js"></script>
+    <!-- Main Notes Section -->
+    <div id="notesSection" style="display: none;">
+        <h2>My Notes</h2>
+        <input type="text" id="noteInput" placeholder="Enter a new note">
+        <button id="saveBtn">Save Note</button>
+        <ul id="notesList"></ul>
+
+        <h2>Friends</h2>
+        <input type="text" id="friendUsername" placeholder="Enter friend's username">
+        <button onclick="addFriend()">Add Friend</button>
+        <ul id="friendsList"></ul>
+
+        <h2>Private Chat</h2>
+        <input type="text" id="message" placeholder="Enter message">
+        <button onclick="sendMessage()">Send Message</button>
+        <div id="chatMessages"></div>
+
+        <!-- New Feature Button -->
+        <button id="new-feature">New Feature</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
