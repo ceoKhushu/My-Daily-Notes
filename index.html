@@ -3,66 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soul Talk - By Khushwant Yadav</title>
+    <title>Soul Talk - Social Media</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
-        <p>Connect, Share, and Explore!</p>
-    </header>
+<header>
+    <h1>Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
+    <p>Your social media platform!</p>
+</header>
 
-    <section id="loginSection">
-        <input type="text" id="username" placeholder="Enter username">
-        <button onclick="registerUser()">Register</button>
-    </section>
+<!-- Registration/Login Section -->
+<section id="loginSection">
+    <input type="text" id="username" placeholder="Enter username">
+    <button onclick="registerUser()">Register</button>
+</section>
 
-    <section id="appSection" style="display:none;">
-        <!-- Feed Section -->
-        <div id="feed"></div>
+<!-- Main App Section -->
+<section id="appSection" style="display:none;">
+    <div id="profileSection">
+        <h2>Your Profile</h2>
+        <button onclick="logout()">Logout</button>
+        <div id="profileInfo"></div>
+    </div>
 
-        <!-- Post Creation Section -->
-        <div id="postCreation" style="display:none;">
+    <div id="feed">
+        <h2>Home Feed</h2>
+        <div id="posts"></div>
+        <div id="newPost">
             <textarea id="newPostText" placeholder="What's on your mind?"></textarea><br>
             <input type="file" id="newPostImage" accept="image/*"><br>
             <button onclick="createPost()">Post</button>
         </div>
+    </div>
+</section>
 
-        <!-- Profile Section -->
-        <div id="profile" style="display:none;">
-            <h2>Your Profile</h2>
-            <div id="userPosts"></div>
-        </div>
+<footer>
+    <p>Made with ❤️ by Khushwant Yadav</p>
+</footer>
 
-        <!-- Friends Section -->
-        <div id="friends" style="display:none;">
-            <h2>Friends</h2>
-            <input type="text" id="friendInput" placeholder="Friend's Username">
-            <button onclick="addFriend()">Add Friend</button>
-            <ul id="friendList"></ul>
-        </div>
-
-        <!-- Chat Section -->
-        <div id="chat" style="display:none;">
-            <h2>Private Chat</h2>
-            <textarea id="messageText" placeholder="Type a message..."></textarea><br>
-            <button onclick="sendMessage()">Send</button>
-            <div id="chatMessages"></div>
-        </div>
-
-        <!-- Settings Section -->
-        <div id="settings" style="display:none;">
-            <h2>Settings</h2>
-            <button onclick="toggleTheme()">Toggle Theme</button>
-            <button onclick="logout()">Logout</button>
-        </div>
-    </section>
-
-    <footer>
-        <p>Made with ❤️ by Khushwant Yadav</p>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
