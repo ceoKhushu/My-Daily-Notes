@@ -1,45 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Notes App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Notes App</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to CSS file -->
 </head>
 <body>
-    <div class="container">
-        <h1>My Notes</h1>
+  <!-- Registration Form -->
+  <div id="registration">
+    <h2>Register</h2>
+    <input type="text" id="username" placeholder="Enter your username" />
+    <button onclick="registerUser()">Register</button>
+  </div>
 
-        <textarea id="noteInput" placeholder="Type your note here..."></textarea>
-        <button id="saveBtn">Save Note</button>
+  <!-- Friends Section -->
+  <div id="friends">
+    <h2>Friends</h2>
+    <input type="text" id="friendUsername" placeholder="Enter friend's username" />
+    <button onclick="addFriend()">Add Friend</button>
+    <ul id="friendsList"></ul>  <!-- Show list of friends -->
+  </div>
 
-        <h2>Saved Notes:</h2>
-        <ul id="notesList"></ul>
-    </div>
+  <!-- Private Chat Section -->
+  <div id="chat">
+    <h2>Private Chat</h2>
+    <input type="text" id="message" placeholder="Type your message" />
+    <button onclick="sendMessage()">Send</button>
+    <div id="chatMessages"></div>  <!-- Display messages -->
+  </div>
 
-    <script src="script.js"></script>
+  <!-- Theme Toggle Button -->
+  <button id="themeToggle" onclick="toggleTheme()">Toggle Theme</button>
+
+  <!-- Link to JavaScript file -->
+  <script src="script.js"></script>
 </body>
 </html>
-<div id="founder">
-  <p>Founder: <strong>Khushwant Yadav</strong></p>
-</div>
-
-<button id="new-feature">Click me for new feature</button>
-<div id="registration">
-  <h2>Register</h2>
-  <input type="text" id="username" placeholder="Enter your username" />
-  <button onclick="registerUser()">Register</button>
-</div>
-<div id="friends">
-  <h2>Friends</h2>
-  <input type="text" id="friendUsername" placeholder="Enter friend's username" />
-  <button onclick="addFriend()">Add Friend</button>
-  <ul id="friendsList"></ul>  <!-- Show list of friends -->
-</div>
-<div id="chat">
-  <h2>Private Chat</h2>
-  <input type="text" id="message" placeholder="Type your message" />
-  <button onclick="sendMessage()">Send</button>
-  <div id="chatMessages"></div>  <!-- Display messages -->
-</div>
-<button id="themeToggle" onclick="toggleTheme()">Toggle Theme</button>
