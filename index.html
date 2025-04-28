@@ -31,9 +31,21 @@
         <h2>Home Feed</h2>
         <div id="posts"></div>
         <div id="newPost">
-            <textarea id="newPostText" placeholder="What's on your mind?"></textarea><br>
             <input type="file" id="newPostImage" accept="image/*"><br>
-            <button onclick="createPost()">Post</button>
+            <button onclick="createPost()">Post Image</button>
+        </div>
+    </div>
+
+    <!-- Chat Section (Bottom Left) -->
+    <div id="chatSection">
+        <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
+        <div id="chatList">
+            <h3>Chat List</h3>
+            <ul id="chatUsers"></ul>
+        </div>
+        <div id="helpSection">
+            <h3>Help</h3>
+            <p>Contact us at: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
         </div>
     </div>
 </section>
