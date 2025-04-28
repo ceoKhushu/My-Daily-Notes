@@ -1,13 +1,16 @@
 let currentUsername = "";
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let friends = JSON.parse(localStorage.getItem("friends")) || [];
+let chatMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
 
 window.onload = function() {
-    // Check if the user is logged in
     const username = localStorage.getItem("username");
     if (username) {
         currentUsername = username;
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("home").style.display = "block";
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("appSection").style.display = "block";
         loadFeed();
+        updateFriendsList();
     }
 };
 
@@ -17,8 +20,8 @@ function registerUser() {
         localStorage.setItem("username", username);
         currentUsername = username;
         alert("Registration successful!");
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("home").style.display = "block";
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("appSection").style.display = "block";
         loadFeed();
     } else {
         alert("Please enter a username!");
@@ -26,9 +29,8 @@ function registerUser() {
 }
 
 function loadFeed() {
-    const posts = JSON.parse(localStorage.getItem("posts")) || [];
-    const feed = document.getElementById("feed");
-    feed.innerHTML = "";
+    const feedDiv = document.getElementById("feed");
+    feedDiv.innerHTML = "";
     posts.forEach(post => {
         const postDiv = document.createElement("div");
         postDiv.innerHTML = `<strong>${post.username}</strong><p>${post.text}</p>`;
@@ -38,55 +40,74 @@ function loadFeed() {
             img.style.width = "100%";
             postDiv.appendChild(img);
         }
-        feed.appendChild(postDiv);
+        feedDiv.appendChild(postDiv);
     });
 }
 
 function createPost() {
-    const text = document.getElementById("postText").value;
-    const image = document.getElementById("postImage").files[0];
-
+    const text = document.getElementById("newPostText").value;
+    const image = document.getElementById("newPostImage").files[0];
+    
     if (text || image) {
         const reader = new FileReader();
         reader.onloadend = function() {
-            const posts = JSON.parse(localStorage.getItem("posts")) || [];
             posts.push({
                 username: currentUsername,
                 text: text,
                 image: reader.result || null
             });
             localStorage.setItem("posts", JSON.stringify(posts));
-            document.getElementById("postText").value = "";
-            document.getElementById("postImage").value = "";
+            document.getElementById("newPostText").value = "";
+            document.getElementById("newPostImage").value = "";
             loadFeed();
         };
         if (image) reader.readAsDataURL(image);
         else loadFeed();
     } else {
-        alert("Please add a text or image to your post!");
+        alert("Please add text or an image to your post!");
     }
 }
 
-function showPostArea() {
-    document.getElementById("postArea").style.display = "block";
+function updateFriendsList() {
+    const friendsList = document.getElementById("friendList");
+    friendsList.innerHTML = "";
+    friends.forEach(friend => {
+        const li = document.createElement("li");
+        li.textContent = friend;
+        friendsList.appendChild(li);
+    });
 }
 
-function showProfile() {
-    document.getElementById("profile").style.display = "block";
-    document.getElementById("myPosts").innerHTML = `<strong>${currentUsername}'s Posts:</strong>`;
-    loadFeed();
+function addFriend() {
+    const friendName = document.getElementById("friendInput").value;
+    if (friendName) {
+        friends.push(friendName);
+        localStorage.setItem("friends", JSON.stringify(friends));
+        updateFriendsList();
+        document.getElementById("friendInput").value = "";
+    } else {
+        alert("Please enter a friend's name!");
+    }
 }
 
-function showFriends() {
-    document.getElementById("friends").style.display = "block";
+function sendMessage() {
+    const message = document.getElementById("messageText").value;
+    if (message) {
+        chatMessages.push({ sender: currentUsername, message: message });
+        localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
+        displayMessages();
+        document.getElementById("messageText").value = "";
+    }
 }
 
-function showChat() {
-    document.getElementById("chat").style.display = "block";
-}
-
-function showSettings() {
-    document.getElementById("settings").style.display = "block";
+function displayMessages() {
+    const chatArea = document.getElementById("chatMessages");
+    chatArea.innerHTML = "";
+    chatMessages.forEach(msg => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${msg.sender}:</strong> ${msg.message}`;
+        chatArea.appendChild(div);
+    });
 }
 
 function toggleTheme() {
