@@ -2,30 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes Website - By Khushwant Yadav</title>
+    <title>Soul Talk - By Khushwant Yadav</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Welcome Heading -->
-    <h1>Welcome to Notes Website - By Khushwant Yadav</h1>
+    <header>
+        <h1 class="main-heading">Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
+        <p class="intro-text">A place to connect, share, and grow with your friends.</p>
+    </header>
 
-    <!-- Theme Toggle Button -->
-    <button onclick="toggleTheme()" id="themeToggleBtn">Toggle Theme</button>
-
-    <!-- Registration Section -->
-    <div id="registration">
-        <h2>Register</h2>
-        <input type="text" id="username" placeholder="Enter your username">
+    <section id="registration">
+        <input type="text" id="username" placeholder="Enter username">
         <button onclick="registerUser()">Register</button>
-    </div>
+    </section>
 
-    <!-- Main Notes Section -->
-    <div id="notesSection" style="display: none;">
-        <h2>My Notes</h2>
-        <input type="text" id="noteInput" placeholder="Enter a new note">
-        <button id="saveBtn">Save Note</button>
+    <section id="home" style="display:none;">
+        <div class="top-buttons">
+            <button onclick="showPostArea()">Create Post</button>
+            <button onclick="showProfile()">My Profile</button>
+            <button onclick="showFriends()">Friends</button>
+            <button onclick="showChat()">Chat</button>
+            <button onclick="showSettings()">Settings</button>
+        </div>
+
+        <div id="feed"></div>
+
+        <div id="postArea" style="display:none;">
+            <textarea id="postText" placeholder="Write a caption..."></textarea><br>
+            <input type="file" id="postImage" accept="image/*"><br>
+            <button onclick="createPost()">Post</button>
+        </div>
+
+        <div id="profile" style="display:none;">
+            <h2>My Profile</h2>
+            <div id="myPosts"></div>
+        </div>
+
+        <div id="friends" style="display:none;">
+            <h2>Friends List</h2>
+            <input type="text" id="friendName" placeholder="Friend's Username">
+            <button onclick="addFriend()">Add Friend</button>
+            <ul id="friendsList"></ul>
+        </div>
+
+        <div id="chat" style="display:none;">
+            <h2>Private Chat</h2>
+            <input type="text" id="message" placeholder="Type message">
+            <button onclick="sendMessage()">Send</button>
+            <div id="chatMessages"></div>
+        </div>
+
+        <div id="settings" style="display:none;">
+            <h2>Settings</h2>
+            <button onclick="toggleTheme()">Toggle Theme</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Made with ❤️ by Khushwant Yadav</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
         <ul id="notesList"></ul>
 
         <h2>Friends</h2>
