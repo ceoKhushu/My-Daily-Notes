@@ -1,19 +1,20 @@
+// Store posts and user data in localStorage
 let currentUsername = "";
 let posts = JSON.parse(localStorage.getItem("posts")) || [];
-let friends = JSON.parse(localStorage.getItem("friends")) || [];
-let chatMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
 
+// On Page Load
 window.onload = function() {
     const username = localStorage.getItem("username");
     if (username) {
         currentUsername = username;
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("appSection").style.display = "block";
+        loadProfile();
         loadFeed();
-        updateFriendsList();
     }
 };
 
+// Register User
 function registerUser() {
     const username = document.getElementById("username").value;
     if (username) {
@@ -22,28 +23,40 @@ function registerUser() {
         alert("Registration successful!");
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("appSection").style.display = "block";
+        loadProfile();
         loadFeed();
     } else {
         alert("Please enter a username!");
     }
 }
 
+// Load User Profile
+function loadProfile() {
+    const profileDiv = document.getElementById("profileInfo");
+    profileDiv.innerHTML = `<p>Welcome, <strong>${currentUsername}</strong></p>`;
+}
+
+// Load Feed (Posts from users)
 function loadFeed() {
-    const feedDiv = document.getElementById("feed");
-    feedDiv.innerHTML = "";
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
     posts.forEach(post => {
         const postDiv = document.createElement("div");
-        postDiv.innerHTML = `<strong>${post.username}</strong><p>${post.text}</p>`;
+        postDiv.classList.add("post");
+        postDiv.innerHTML = `
+            <strong>${post.username}</strong>
+            <p>${post.text}</p>
+        `;
         if (post.image) {
             const img = document.createElement("img");
             img.src = post.image;
-            img.style.width = "100%";
             postDiv.appendChild(img);
         }
-        feedDiv.appendChild(postDiv);
+        postsDiv.appendChild(postDiv);
     });
 }
 
+// Create a New Post
 function createPost() {
     const text = document.getElementById("newPostText").value;
     const image = document.getElementById("newPostImage").files[0];
@@ -68,52 +81,7 @@ function createPost() {
     }
 }
 
-function updateFriendsList() {
-    const friendsList = document.getElementById("friendList");
-    friendsList.innerHTML = "";
-    friends.forEach(friend => {
-        const li = document.createElement("li");
-        li.textContent = friend;
-        friendsList.appendChild(li);
-    });
-}
-
-function addFriend() {
-    const friendName = document.getElementById("friendInput").value;
-    if (friendName) {
-        friends.push(friendName);
-        localStorage.setItem("friends", JSON.stringify(friends));
-        updateFriendsList();
-        document.getElementById("friendInput").value = "";
-    } else {
-        alert("Please enter a friend's name!");
-    }
-}
-
-function sendMessage() {
-    const message = document.getElementById("messageText").value;
-    if (message) {
-        chatMessages.push({ sender: currentUsername, message: message });
-        localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
-        displayMessages();
-        document.getElementById("messageText").value = "";
-    }
-}
-
-function displayMessages() {
-    const chatArea = document.getElementById("chatMessages");
-    chatArea.innerHTML = "";
-    chatMessages.forEach(msg => {
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${msg.sender}:</strong> ${msg.message}`;
-        chatArea.appendChild(div);
-    });
-}
-
-function toggleTheme() {
-    document.body.classList.toggle("dark-theme");
-}
-
+// Logout and Return to Registration
 function logout() {
     localStorage.removeItem("username");
     window.location.reload();
