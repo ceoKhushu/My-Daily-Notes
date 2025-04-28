@@ -1,68 +1,86 @@
+/* General Body Style */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+    margin: 20px;
+    padding: 0;
+    background-color: white;
+    color: black;
 }
 
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+/* Main Heading Style */
+h1 {
+    color: black;
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-textarea {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 10px;
+/* Section Styles */
+#registration, #notesSection {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Input Fields and Buttons */
+input[type="text"] {
     padding: 10px;
-    font-size: 16px;
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 button {
     padding: 10px 20px;
-    font-size: 16px;
-    background: #4CAF50;
+    margin: 10px;
+    background-color: #007bff;
     color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 20px;
 }
 
 button:hover {
-    background: #45a049;
+    background-color: #0056b3;
 }
 
+/* Lists */
 ul {
     list-style-type: none;
     padding: 0;
 }
 
 li {
-    background: #eee;
-    margin-bottom: 10px;
+    margin: 10px 0;
+}
+
+/* Chat Messages */
+#chatMessages div {
+    background-color: #e9ecef;
     padding: 10px;
-    border-radius: 4px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: left;
 }
 
-#new-feature {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
+/* Dark Theme */
+.dark {
+    background-color: #121212;
+    color: white;
 }
 
-#new-feature:hover {
-  background-color: #45a049;
-}
-body.light {
-  background-color: white;
-  color: black;
+.dark h1 {
+    background-color: #333;
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
-body.dark {
-  background-color: #333;
-  color: white;
+.dark #chatMessages div {
+    background-color: #2c2c2c;
 }
+
