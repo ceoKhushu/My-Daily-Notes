@@ -1,8 +1,24 @@
+// Get elements
 const saveBtn = document.getElementById('saveBtn');
 const noteInput = document.getElementById('noteInput');
 const notesList = document.getElementById('notesList');
 
-// Save note
+// Load page
+window.onload = function() {
+    loadNotes();
+    displayMessages();
+    updateFriendsList();
+
+    const theme = localStorage.getItem("theme") || "light";
+    document.body.classList.add(theme);
+
+    if (localStorage.getItem("username")) {
+        document.getElementById("registration").style.display = "none";
+        document.getElementById("notesSection").style.display = "block";
+    }
+};
+
+// Save Note
 saveBtn.onclick = function() {
     const noteText = noteInput.value.trim();
     if (noteText !== "") {
@@ -14,7 +30,7 @@ saveBtn.onclick = function() {
     }
 };
 
-// Load and display notes
+// Load Notes
 function loadNotes() {
     notesList.innerHTML = "";
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -22,7 +38,7 @@ function loadNotes() {
         const li = document.createElement('li');
         li.textContent = note;
 
-        // Add a delete button for each note
+        // Delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
         deleteBtn.onclick = function() {
@@ -31,12 +47,17 @@ function loadNotes() {
         li.appendChild(deleteBtn);
         notesList.appendChild(li);
     });
+
+    // New feature button action
+    document.getElementById("new-feature").onclick = function() {
+        alert("New feature coming soon!");
+    };
 }
 
-// Delete note
+// Delete Note
 function deleteNote(index) {
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
-    notes.splice(index, 1);  // Remove note by index
+    notes.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(notes));
     loadNotes();
 }
@@ -68,7 +89,7 @@ function addFriend() {
     }
 }
 
-// Update Friend List
+// Update Friends List
 function updateFriendsList() {
     const friends = JSON.parse(localStorage.getItem("friends")) || [];
     const list = document.getElementById("friendsList");
@@ -81,7 +102,7 @@ function updateFriendsList() {
     });
 }
 
-// Send Message
+// Send Chat Message
 function sendMessage() {
     const message = document.getElementById("message").value;
     const sender = localStorage.getItem("username");
@@ -110,7 +131,7 @@ function displayMessages() {
     });
 }
 
-// Theme Toggle
+// Toggle Theme (Light/Dark)
 function toggleTheme() {
     const currentTheme = localStorage.getItem("theme");
     if (currentTheme === "dark") {
@@ -123,25 +144,3 @@ function toggleTheme() {
         localStorage.setItem("theme", "dark");
     }
 }
-
-// New Feature Alert
-document.getElementById("new-feature").addEventListener("click", function() {
-    alert("New feature coming soon!");
-});
-
-// Load everything when page loads
-window.onload = function() {
-    const theme = localStorage.getItem("theme") || "light";
-    document.body.classList.add(theme);
-
-    const username = localStorage.getItem("username");
-    if (username) {
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("notesSection").style.display = "block";
-    }
-
-    loadNotes();
-    updateFriendsList();
-    displayMessages();
-};
-
