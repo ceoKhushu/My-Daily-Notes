@@ -1,82 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soul Talk - Social Media Platform</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Talk - Social Media Platform</title>
+  <!-- Inline CSS for simplicity -->
+  <style>
+    body { margin:0; font-family:sans-serif; background:#f4f4f4; color:#333; }
+    .dark { background:#333; color:#fff; }
+    header { background:#4a148c; color:#fff; padding:1rem; text-align:center; }
+    nav { display:none; background:#eee; padding:0.5rem; text-align:center; }
+    nav button { margin:0.2rem; padding:0.5rem 1rem; border:none; border-radius:5px; background:#6a1b9a; color:#fff; cursor:pointer; }
+    nav button:hover { background:#4a148c; }
+    .section { display:none; padding:1rem; max-width:600px; margin:1rem auto; background:#fff; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .section input, .section textarea, .section select { width:100%; padding:0.5rem; margin:0.5rem 0; border:1px solid #ccc; border-radius:5px; }
+    .section button { padding:0.5rem 1rem; border:none; border-radius:5px; background:#6a1b9a; color:#fff; cursor:pointer; }
+    .section button:hover { background:#4a148c; }
+    #feed .post { border-bottom:1px solid #ddd; padding:0.5rem 0; }
+    #feed .post img { max-width:100%; border-radius:5px; margin-top:0.5rem; }
+    #searchResults div, #friendList div { padding:0.5rem; border-bottom:1px solid #ddd; cursor:pointer; }
+    #chatWindow { margin-top:1rem; }
+    #messages { height:150px; overflow-y:auto; border:1px solid #ccc; padding:0.5rem; margin-bottom:0.5rem; }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <h1>Soul Talk</h1>
-        <p>Connect, Share, Express</p>
-    </header>
+  <header>
+    <h1>Soul Talk</h1>
+    <p>Connect, Share, Express</p>
+  </header>
 
-    <!-- Registration Section -->
-    <section id="registrationSection" class="registration">
-        <h2>Register</h2>
-        <input type="text" id="username" placeholder="Choose a username" required>
-        <input type="password" id="password" placeholder="Choose a password" required>
-        <button onclick="registerUser()">Register</button>
-    </section>
+  <!-- Registration/Login -->
+  <section id="registration" class="section">
+    <h2>Register / Login</h2>
+    <input id="regUsername" type="text" placeholder="Username">
+    <input id="regPassword" type="password" placeholder="Password">
+    <button onclick="registerOrLogin()">Submit</button>
+  </section>
 
-    <!-- Navigation Menu (Visible After Login) -->
-    <nav id="nav" style="display:none;">
-        <button onclick="showHomeFeed()">Home Feed</button>
-        <button onclick="showCreatePost()">Create Post</button>
-        <button onclick="showSearch()">Search</button>
-        <button onclick="showChat()">Chats</button>
-        <button onclick="showSettings()">Settings</button>
-        <button onclick="logout()">Logout</button>
-    </nav>
+  <!-- Navigation -->
+  <nav id="nav">
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('create')">Post</button>
+    <button onclick="showSection('search')">Search</button>
+    <button onclick="showSection('chat')">Chats</button>
+    <button onclick="showSection('settings')">Settings</button>
+    <button onclick="logout()">Logout</button>
+  </nav>
 
-    <!-- Home Feed Section -->
-    <section id="homeFeedSection" style="display:none;">
-        <h2>Home Feed</h2>
-        <div id="feed"></div>
-    </section>
+  <!-- Home Feed -->
+  <section id="home" class="section">
+    <h2>Home Feed</h2>
+    <div id="feed"></div>
+  </section>
 
-    <!-- Create Post Section -->
-    <section id="createPostSection" style="display:none;">
-        <textarea id="post-caption" placeholder="What's on your mind?"></textarea>
-        <input type="file" id="post-image" accept="image/*" />
-        <button onclick="createPost()">Post</button>
-    </section>
+  <!-- Create Post -->
+  <section id="create" class="section">
+    <h2>Create Post</n2>
+    <textarea id="postText" placeholder="What's on your mind?"></textarea>
+    <input id="postImage" type="file" accept="image/*">
+    <button onclick="createPost()">Share</button>
+  </section>
 
-    <!-- Search Section -->
-    <section id="searchSection" style="display:none;">
-        <input type="text" id="searchInput" placeholder="Search for users...">
-        <button onclick="searchUsers()">Search</button>
-        <div id="searchResults"></div>
-    </section>
+  <!-- Search Users -->
+  <section id="search" class="section">
+    <h2>Search Users</h2>
+    <input id="searchInput" type="text" placeholder="Search by username">
+    <div id="searchResults"></div>
+  </section>
 
-    <!-- Chat Section -->
-    <section id="chatSection" style="display:none;">
-        <h3>Your Chats</h3>
-        <div id="chatList"></div>
-        <div id="chatWindow" style="display:none;">
-            <h4 id="chatWith">Chat with:</h4>
-            <div id="messages"></div>
-            <textarea id="newMessage" placeholder="Type a message..."></textarea>
-            <button onclick="sendMessage()">Send</button>
-            <button onclick="deleteChat()">Delete Chat</button>
-        </div>
-    </section>
+  <!-- Chats -->
+  <section id="chat" class="section">
+    <h2>Chats</h2>
+    <div id="friendList"></div>
+    <div id="chatWindow">
+      <h3 id="chatWith"></h3>
+      <div id="messages"></div>
+      <textarea id="chatInput" placeholder="Type a message..."></textarea>
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="deleteChat()">Delete Chat</button>
+    </div>
+  </section>
 
-    <!-- Settings Section -->
-    <section id="settingsSection" style="display:none;">
-        <h3>Settings</h3>
-        <button onclick="changeAppearance()">Toggle Dark Mode</button>
-        <button onclick="editProfile()">Edit Profile</button>
-    </section>
+  <!-- Settings -->
+  <section id="settings" class="section">
+    <h2>Settings</h2>
+    <button onclick="toggleDark()">Toggle Dark/Light</button>
+    <hr>
+    <h3>Account</h3>
+    <button onclick="changeUsername()">Change Username</button>
+    <button onclick="changePassword()">Change Password</button>
+  </section>
 
-    <!-- Help Section -->
-    <footer id="helpSection">
-        <h3>Need Help?</h3>
-        <p>Contact us at: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
-    </footer>
+  <!-- Help -->
+  <footer class="section">
+    <h3>Need Help?</h3>
+    <p>Email: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
+  </footer>
 
-    <script src="script.js"></script>
+  <!-- JavaScript -->
+  <script>
+    let users = JSON.parse(localStorage.getItem('st_users')||'[]');
+    let posts = JSON.parse(localStorage.getItem('st_posts')||'[]');
+    let chats = JSON.parse(localStorage.getItem('st_chats')||'{}');
+    let current = JSON.parse(localStorage.getItem('st_current')||'null');
+
+    // Initialize
+    window.onload = () => {
+      if (current) {
+        showNav(); showSection('home'); updateFeed(); populateFriends();
+      }
+    };
+
+    function save() {
+      localStorage.setItem('st_users', JSON.stringify(users));
+      localStorage.setItem('st_posts', JSON.stringify(posts));
+      localStorage.setItem('st_chats', JSON.stringify(chats));
+      localStorage.setItem('st_current', JSON.stringify(current));
+    }
+
+    function registerOrLogin() {
+      const u = document.getElementById('regUsername').value.trim();
+      const p = document.getElementById('regPassword').value;
+      if (!u||!p) return alert('Enter credentials');
+      let user = users.find(x=>x.username===u);
+      if (user) {
+        if (user.password!==p) return alert('Wrong password');
+      } else {
+        user = {username:u,password:p,bio:'',profile:''};
+        users.push(user);
+        chats[u]={};
+      }
+      current = user; save(); showNav(); showSection('home'); updateFeed(); populateFriends();
+    }
+
+    function showNav() { document.getElementById('registration').style.display='none'; document.getElementById('nav').style.display='block'; }
+    function logout() { localStorage.removeItem('st_current'); location.reload(); }
+
+    function hideAll() { ['home','create','search','chat','settings'].forEach(id=>document.getElementById(id).style.display='none'); }
+    function showSection(id) { hideAll(); document.getElementById(id).style.display='block'; if(id==='home') updateFeed(); }
+
+    function updateFeed() {
+      const f=document.getElementById('feed'); f.innerHTML='';
+      posts.slice().reverse().forEach(post=>{
+        const d=document.createElement('div'); d.className='post';
+        d.innerHTML= '<strong>'+post.user+':</strong> '+post.text + (post.img?'<img src="'+post.img+'">':'');
+        f.appendChild(d);
+      });
+    }
+
+    function createPost() {
+      const text=document.getElementById('postText').value;
+      const imgFile=document.getElementById('postImage').files[0];
+      const post={user:current.username,text,img:''};
+      if(imgFile) post.img=URL.createObjectURL(imgFile);
+      posts.push(post); save(); updateFeed();
+      document.getElementById('postText').value='';
+      document.getElementById('postImage').value='';
+      alert('Posted!');
+    }
+
+    function searchUsers() {
+      const q=document.getElementById('searchInput').value.toLowerCase();
+      const r=document.getElementById('searchResults'); r.innerHTML='';
+      users.filter(u=>u.username.toLowerCase().includes(q)).forEach(u=>{
+        const div=document.createElement('div'); div.textContent=u.username; r.appendChild(div);
+      });
+    }
+
+    function populateFriends() {
+      const fl=document.getElementById('friendList'); fl.innerHTML='';
+      users.filter(u=>u.username!==current.username).forEach(u=>{
+        const div=document.createElement('div'); div.textContent=u.username;
+        div.onclick=()=>openChat(u.username);
+        fl.appendChild(div);
+      });
+    }
+
+    function openChat(friend) {
+      showSection('chat'); document.getElementById('chatWith').textContent='Chat with '+friend;
+      const msgBox=document.getElementById('messages'); msgBox.innerHTML='';
+      const conv=chats[current.username][friend]||[];
+      conv.forEach(m=>{ const p=document.createElement('p'); p.textContent=m; msgBox.appendChild(p); });
+      document.getElementById('chatInput').value='';
+    }
+
+    function sendMessage() {
+      const friend=document.getElementById('chatWith').textContent.replace('Chat with ','');
+      const m=document.getElementById('chatInput').value.trim(); if(!m) return;
+      chats[current.username][friend]=chats[current.username][friend]||[];
+      chats[current.username][friend].push(m);
+      save(); openChat(friend);
+    }
+
+    function deleteChat() {
+      const friend=document.getElementById('chatWith').textContent.replace('Chat with ','');
+      chats[current.username][friend]=[]; save(); openChat(friend);
+    }
+
+    function toggleDark() { document.body.classList.toggle('dark'); }
+
+    function changeUsername() {
+      const nu=prompt('New username:',current.username);
+      if(nu && !users.find(u=>u.username===nu)) {
+        users.find(u=>u.username===current.username).username=nu;
+        chats[nu]=chats[current.username]; delete chats[current.username];
+        current.username=nu; save(); alert('Username changed'); showSection('settings');
+      } else alert('Invalid or taken');
+    }
+
+    function changePassword() {
+      const np=prompt('New password:'); if(np) { users.find(u=>u.username===current.username).password=np; save(); alert('Password updated'); }
+    }
+  </script>
 </body>
 </html>
+
