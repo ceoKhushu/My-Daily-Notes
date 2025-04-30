@@ -1,82 +1,201 @@
-// Profile section
-function editProfile() {
-  const newBio = prompt("Enter your new bio:");
-  if (newBio) {
-    document.getElementById("bio").textContent = newBio;
-  }
+let currentUser = null;
+let registeredUsers = [];
+let chats = {};
+
+// Register a new user
+function registerUser() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (!username || !password) {
+        alert("Please enter both username and password.");
+        return;
+    }
+
+    if (registeredUsers.some(user => user.username === username)) {
+        alert("Username is already taken. Please choose a different username.");
+        return;
+    }
+
+    const newUser = { username, password };
+    registeredUsers.push(newUser);
+    currentUser = newUser;
+    document.getElementById("registrationSection").style.display = "none";
+    document.getElementById("nav").style.display = "block";
+    showHomeFeed();
 }
 
-// Create post
+// Login (Simple mock login)
+function login(username, password) {
+    currentUser = registeredUsers.find(user => user.username === username && user.password === password);
+    if (!currentUser) {
+        alert("Invalid credentials");
+        return;
+    }
+
+    document.getElementById("registrationSection").style.display = "none";
+    document.getElementById("nav").style.display = "block";
+    showHomeFeed();
+}
+
+// Show Home Feed Section
+function showHomeFeed() {
+    document.getElementById("homeFeedSection").style.display = "block";
+    document.getElementById("createPostSection").style.display = "none";
+    document.getElementById("searchSection").style.display = "none";
+    document.getElementById("chatSection").style.display = "none";
+    document.getElementById("settingsSection").style.display = "none";
+}
+
+// Create a new post
 function createPost() {
-  const caption = document.getElementById("post-caption").value;
-  const fileInput = document.getElementById("post-image");
-  const file = fileInput.files[0];
-  
-  if (caption.trim() === "" && !file) {
-    alert("Please enter some text or choose an image.");
-    return;
-  }
+    const caption = document.getElementById("post-caption").value;
+    const fileInput = document.getElementById("post-image");
+    const file = fileInput.files[0];
 
-  const postContainer = document.createElement("div");
-  postContainer.classList.add("post");
+    if (caption.trim() === "" && !file) {
+        alert("Please enter some text or choose an image.");
+        return;
+    }
 
-  // Add caption
-  const postCaption = document.createElement("p");
-  postCaption.textContent = caption;
-  postContainer.appendChild(postCaption);
+    const postContainer = document.createElement("div");
+    postContainer.classList.add("post");
 
-  // Add image (if any)
-  if (file) {
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    postContainer.appendChild(img);
-  }
+    const postCaption = document.createElement("p");
+    postCaption.textContent = caption;
+    postContainer.appendChild(postCaption);
 
-  // Add post footer (like, comment buttons)
-  const footer = document.createElement("div");
-  footer.classList.add("post-footer");
-  
-  const likeButton = document.createElement("button");
-  likeButton.classList.add("react-btn");
-  likeButton.textContent = "❤️ Like";
-  footer.appendChild(likeButton);
-  
-  const deleteButton = document.createElement("button");
-  deleteButton.classList.add("react-btn");
-  deleteButton.textContent = "🗑️ Delete";
-  deleteButton.onclick = () => postContainer.remove();
-  footer.appendChild(deleteButton);
+    if (file) {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        postContainer.appendChild(img);
+    }
 
-  postContainer.appendChild(footer);
-  
-  document.getElementById("feed").prepend(postContainer);
-  
-  // Clear the input fields after posting
-  document.getElementById("post-caption").value = "";
-  fileInput.value = "";
+    document.getElementById("feed").prepend(postContainer);
+
+    document.getElementById("post-caption").value = "";
+    fileInput.value = "";
 }
 
-// Show Explore section (Placeholder)
-function showExplore() {
-  alert("Explore feature coming soon!");
+// Search for Users
+function searchUsers() {
+    const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+    const searchResults = document.getElementById("searchResults");
+    searchResults.innerHTML = ""; // Clear previous search results
+
+    const filteredUsers = registeredUsers.filter(user =>
+        user.username.toLowerCase().includes(searchQuery)
+    );
+
+    if (filteredUsers.length === 0) {
+        searchResults.innerHTML = "<p>No users found</p>";
+    } else {
+        filteredUsers.forEach(user => {
+            const resultItem = document.createElement("div");
+            resultItem.textContent = user.username;
+            searchResults.appendChild(resultItem);
+        });
+    }
 }
 
-// Show Search section (Placeholder)
+// Show Search Section
 function showSearch() {
-  alert("Search feature coming soon!");
+    document.getElementById("searchSection").style.display = "block";
+    document.getElementById("homeFeedSection").style.display = "none";
+    document.getElementById("createPostSection").style.display = "none";
+    document.getElementById("chatSection").style.display = "none";
+    document.getElementById("settingsSection").style.display = "none";
 }
 
-// Show Settings section (Placeholder)
+// Show Chat Section
+function showChat() {
+    document.getElementById("chatSection").style.display = "block";
+    document.getElementById("homeFeedSection").style.display = "none";
+    document.getElementById("createPostSection").style.display = "none";
+    document.getElementById("searchSection").style.display = "none";
+    document.getElementById("settingsSection").style.display = "none";
+
+    // List of friends for chat
+    const chatList = document.getElementById("chatList");
+    chatList.innerHTML = ""; // Clear previous chats
+
+    registeredUsers.forEach(user => {
+        if (user.username !== currentUser.username) {
+            const chatItem = document.createElement("div");
+            chatItem.textContent = user.username;
+            chatItem.onclick = () => openChat(user.username);
+            chatList.appendChild(chatItem);
+        }
+    });
+}
+
+// Open a specific chat
+function openChat(friendUsername) {
+    document.getElementById("chatWindow").style.display = "block";
+    document.getElementById("chatWith").textContent = `Chat with: ${friendUsername}`;
+    const messages = document.getElementById("messages");
+    messages.innerHTML = "";
+
+    if (!chats[friendUsername]) {
+        chats[friendUsername] = [];
+    }
+
+    chats[friendUsername].forEach(message => {
+        const messageElement = document.createElement("p");
+        messageElement.textContent = message;
+        messages.appendChild(messageElement);
+    });
+}
+
+// Send message in a chat
+function sendMessage() {
+    const message = document.getElementById("newMessage").value;
+    const friendUsername = document.getElementById("chatWith").textContent.split(": ")[1];
+
+    if (message.trim() !== "") {
+        chats[friendUsername].push(message);
+        openChat(friendUsername);
+        document.getElementById("newMessage").value = "";
+    }
+}
+
+// Delete chat history
+function deleteChat() {
+    const friendUsername = document.getElementById("chatWith").textContent.split(": ")[1];
+    chats[friendUsername] = [];
+    openChat(friendUsername);
+}
+
+// Show Settings Section
 function showSettings() {
-  alert("Settings feature coming soon!");
+    document.getElementById("settingsSection").style.display = "block";
+    document.getElementById("homeFeedSection").style.display = "none";
+    document.getElementById("createPostSection").style.display = "none";
+    document.getElementById("searchSection").style.display = "none";
+    document.getElementById("chatSection").style.display = "none";
 }
 
-// Logout function
+// Change Appearance (Dark Mode)
+function changeAppearance() {
+    document.body.classList.toggle("dark-mode");
+}
+
+// Edit Profile
+function editProfile() {
+    const newBio = prompt("Enter your new bio:");
+    if (newBio) {
+        document.getElementById("bio").textContent = newBio;
+    }
+}
+
+// Logout
 function logout() {
-  if (confirm("Are you sure you want to log out?")) {
-    alert("Logged out successfully!");
-    // You can also clear any stored data here (e.g., localStorage or sessionStorage)
-    // For now, just redirect to the homepage or login page.
-    window.location.reload();
-  }
+    currentUser = null;
+    document.getElementById("registrationSection").style.display = "block";
+    document.getElementById("nav").style.display = "none";
+    document.getElementById("homeFeedSection").style.display = "none";
+    document.getElementById("createPostSection").style.display = "none";
+    document.getElementById("searchSection").style.display = "none";
+    document.getElementById("chatSection").style.display = "none";
+    document.getElementById("settingsSection").style.display = "none";
 }
