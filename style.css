@@ -1,37 +1,91 @@
-/* Add styles for home feed, chat section, and posts */
-#post-caption {
-    width: 100%;
-    height: 80px;
+/* Global & Layout */
+body { margin:0; font-family:sans-serif; background:#f4f4f4; color:#333; }
+body.dark { background:#333; color:#fff; }
+
+header {
+  background:#4a148c;
+  color:#fff;
+  padding:1rem;
+  text-align:center;
+}
+nav {
+  display:none;
+  background:#eee;
+  padding:0.5rem;
+  text-align:center;
+}
+nav button {
+  margin:0.2rem;
+  padding:0.5rem 1rem;
+  border:none;
+  border-radius:5px;
+  background:#6a1b9a;
+  color:#fff;
+  cursor:pointer;
+}
+nav button:hover { background:#4a148c; }
+
+/* Sections */
+.section {
+  display:none;
+  padding:1rem;
+  max-width:600px;
+  margin:1rem auto;
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+.section input,
+.section textarea,
+.section select {
+  width:100%;
+  padding:0.5rem;
+  margin:0.5rem 0;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+.section button {
+  padding:0.5rem 1rem;
+  border:none;
+  border-radius:5px;
+  background:#6a1b9a;
+  color:#fff;
+  cursor:pointer;
+}
+.section button:hover { background:#4a148c; }
+
+/* Feed & Posts */
+#feed .post {
+  border-bottom:1px solid #ddd;
+  padding:0.5rem 0;
+}
+#feed .post img {
+  max-width:100%;
+  border-radius:5px;
+  margin-top:0.5rem;
 }
 
-#searchResults div {
-    background-color: #f4f4f4;
-    padding: 10px;
-    margin-top: 5px;
+/* Search & Friends */
+#searchResults div,
+#friendList div {
+  padding:0.5rem;
+  border-bottom:1px solid #ddd;
+  cursor:pointer;
 }
 
+/* Chat Window */
 #chatWindow {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
+  margin-top:1rem;
+}
+#messages {
+  height:150px;
+  overflow-y:auto;
+  border:1px solid #ccc;
+  padding:0.5rem;
+  margin-bottom:0.5rem;
 }
 
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
+/* Help/Footer */
+footer.section {
+  text-align:center;
 }
