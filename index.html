@@ -1,69 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Soul Talk - Social Media Platform</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8NMYLG793"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-Q8NMYLG793');
   </script>
 </head>
 <body>
+  <!-- Header -->
   <header class="header">
-    <div class="logo">Soul Talk</div>
-    <div class="nav">
-      <button onclick="explore()">Explore</button>
-      <button onclick="searchUser()">Search</button>
-      <button onclick="logout()">Logout</button>
-      <button onclick="openSettings()">Settings</button>
-    </div>
+    <h1>Soul Talk</h1>
+    <p>Connect, Share, Express</p>
   </header>
 
-  <main class="main">
-    <section class="profile">
-      <img id="profilePic" src="default-profile.png" alt="Profile Picture" />
-      <h2 id="usernameDisplay">@yourusername</h2>
-      <p id="bio">This is your bio.</p>
-      <input type="file" id="uploadProfilePic" />
-      <input type="text" id="bioInput" placeholder="Update your bio" />
-      <button onclick="updateProfile()">Update Profile</button>
-    </section>
+  <!-- Navigation -->
+  <nav>
+    <button onclick="showExplore()">Explore</button>
+    <button onclick="showSearch()">Search</button>
+    <button onclick="showSettings()">Settings</button>
+    <button onclick="logout()">Logout</button>
+  </nav>
 
-    <section class="new-post">
-      <h3>Create a Post</h3>
-      <input type="file" id="postImage" />
-      <textarea id="postCaption" placeholder="Say something..."></textarea>
-      <button onclick="createPost()">Share Post</button>
-    </section>
-
-    <section class="feed" id="feed">
-      <!-- Example post -->
-      <div class="post">
-        <img src="sample.jpg" alt="Post Image" />
-        <div class="post-actions">
-          <span onclick="react('❤️')">❤️</span>
-          <span onclick="react('😂')">😂</span>
-          <span onclick="react('👍')">👍</span>
-          <div class="options">⋮
-            <div class="dropdown">
-              <button onclick="sharePost()">Share</button>
-              <button onclick="deletePost(this)">Delete</button>
-            </div>
-          </div>
+  <!-- Main Feed Section -->
+  <main>
+    <section class="profile-section">
+      <div class="profile">
+        <img id="profile-pic" src="default-profile.jpg" alt="Profile Picture">
+        <div class="bio">
+          <h2 id="username">Username</h2>
+          <p id="bio">This is your bio</p>
+          <button onclick="editProfile()">Edit Profile</button>
         </div>
-        <p class="caption">This is a sample caption.</p>
       </div>
+
+      <!-- Create Post Section -->
+      <div class="create-post">
+        <textarea id="post-caption" placeholder="What's on your mind?"></textarea>
+        <input type="file" id="post-image" accept="image/*" />
+        <button onclick="createPost()">Post</button>
+      </div>
+    </section>
+
+    <!-- Posts Feed -->
+    <section class="feed" id="feed">
+      <h2>Home Feed</h2>
+      <!-- Posts will appear here -->
     </section>
   </main>
 
-  <footer class="footer">
-    <p>Need help? Email: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
-    <p>Made with ❤️ by Khushwant Yadav</p>
+  <!-- Help Section -->
+  <footer>
+    <div class="help">
+      <h3>Need Help?</h3>
+      <p>Contact us at: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
