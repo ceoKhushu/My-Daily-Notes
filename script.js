@@ -1,96 +1,82 @@
-// Store posts and user data in localStorage
-let currentUsername = "";
-let posts = JSON.parse(localStorage.getItem("posts")) || [];
-let users = JSON.parse(localStorage.getItem("users")) || [];
-
-// Register the user
-function registerUser() {
-    const username = document.getElementById("username").value;
-    if (username) {
-        currentUsername = username;
-        localStorage.setItem("username", currentUsername); // Store username in localStorage
-        users.push({ username: currentUsername });
-        localStorage.setItem("users", JSON.stringify(users)); // Save users
-        alert("Registration successful!");
-        document.getElementById("loginSection").style.display = "none"; // Hide login
-        document.getElementById("appSection").style.display = "block"; // Show app section
-        loadProfile();
-        loadPosts();
-        displayChatSection();
-    } else {
-        alert("Please enter a username!");
-    }
+// Profile section
+function editProfile() {
+  const newBio = prompt("Enter your new bio:");
+  if (newBio) {
+    document.getElementById("bio").textContent = newBio;
+  }
 }
 
-// Logout
-function logout() {
-    localStorage.removeItem("username");
-    document.getElementById("loginSection").style.display = "block"; // Show login
-    document.getElementById("appSection").style.display = "none"; // Hide app section
-}
-
-// Load Profile
-function loadProfile() {
-    const profileInfo = document.getElementById("profileInfo");
-    profileInfo.innerHTML = `<p>Welcome, ${currentUsername}!</p>`;
-}
-
-// Create Post (Image Only)
+// Create post
 function createPost() {
-    const postImage = document.getElementById("newPostImage").files[0];
-    if (postImage) {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            const post = {
-                image: reader.result,
-                username: currentUsername
-            };
-            posts.push(post);
-            localStorage.setItem("posts", JSON.stringify(posts)); // Save posts to localStorage
-            loadPosts();
-        };
-        reader.readAsDataURL(postImage); // Read the image file
-    } else {
-        alert("Please select an image to post!");
-    }
+  const caption = document.getElementById("post-caption").value;
+  const fileInput = document.getElementById("post-image");
+  const file = fileInput.files[0];
+  
+  if (caption.trim() === "" && !file) {
+    alert("Please enter some text or choose an image.");
+    return;
+  }
+
+  const postContainer = document.createElement("div");
+  postContainer.classList.add("post");
+
+  // Add caption
+  const postCaption = document.createElement("p");
+  postCaption.textContent = caption;
+  postContainer.appendChild(postCaption);
+
+  // Add image (if any)
+  if (file) {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    postContainer.appendChild(img);
+  }
+
+  // Add post footer (like, comment buttons)
+  const footer = document.createElement("div");
+  footer.classList.add("post-footer");
+  
+  const likeButton = document.createElement("button");
+  likeButton.classList.add("react-btn");
+  likeButton.textContent = "❤️ Like";
+  footer.appendChild(likeButton);
+  
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("react-btn");
+  deleteButton.textContent = "🗑️ Delete";
+  deleteButton.onclick = () => postContainer.remove();
+  footer.appendChild(deleteButton);
+
+  postContainer.appendChild(footer);
+  
+  document.getElementById("feed").prepend(postContainer);
+  
+  // Clear the input fields after posting
+  document.getElementById("post-caption").value = "";
+  fileInput.value = "";
 }
 
-// Load Posts
-function loadPosts() {
-    const postsContainer = document.getElementById("posts");
-    postsContainer.innerHTML = "";
-    posts.forEach(post => {
-        const postDiv = document.createElement("div");
-        postDiv.classList.add("post");
-        const postImage = document.createElement("img");
-        postImage.src = post.image;
-        postDiv.appendChild(postImage);
-        postsContainer.appendChild(postDiv);
-    });
+// Show Explore section (Placeholder)
+function showExplore() {
+  alert("Explore feature coming soon!");
 }
 
-// Display Chat Section
-function displayChatSection() {
-    const chatSection = document.getElementById("chatSection");
-    chatSection.style.display = "block";
+// Show Search section (Placeholder)
+function showSearch() {
+  alert("Search feature coming soon!");
 }
 
-// Toggle Theme (Light/Dark)
-function toggleTheme() {
-    const currentTheme = document.body.classList.contains("dark") ? "dark" : "light";
-    if (currentTheme === "dark") {
-        document.body.classList.remove("dark");
-        document.body.classList.add("light");
-        localStorage.setItem("theme", "light");
-    } else {
-        document.body.classList.remove("light");
-        document.body.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-    }
+// Show Settings section (Placeholder)
+function showSettings() {
+  alert("Settings feature coming soon!");
 }
 
-// Apply Theme on Load
-window.onload = function () {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.body.classList.add(savedTheme);
-};
+// Logout function
+function logout() {
+  if (confirm("Are you sure you want to log out?")) {
+    alert("Logged out successfully!");
+    // You can also clear any stored data here (e.g., localStorage or sessionStorage)
+    // For now, just redirect to the homepage or login page.
+    window.location.reload();
+  }
+}
