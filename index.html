@@ -4,24 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Soul Talk - Social Media Platform</title>
-  <!-- Inline CSS for simplicity -->
-  <style>
-    body { margin:0; font-family:sans-serif; background:#f4f4f4; color:#333; }
-    .dark { background:#333; color:#fff; }
-    header { background:#4a148c; color:#fff; padding:1rem; text-align:center; }
-    nav { display:none; background:#eee; padding:0.5rem; text-align:center; }
-    nav button { margin:0.2rem; padding:0.5rem 1rem; border:none; border-radius:5px; background:#6a1b9a; color:#fff; cursor:pointer; }
-    nav button:hover { background:#4a148c; }
-    .section { display:none; padding:1rem; max-width:600px; margin:1rem auto; background:#fff; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-    .section input, .section textarea, .section select { width:100%; padding:0.5rem; margin:0.5rem 0; border:1px solid #ccc; border-radius:5px; }
-    .section button { padding:0.5rem 1rem; border:none; border-radius:5px; background:#6a1b9a; color:#fff; cursor:pointer; }
-    .section button:hover { background:#4a148c; }
-    #feed .post { border-bottom:1px solid #ddd; padding:0.5rem 0; }
-    #feed .post img { max-width:100%; border-radius:5px; margin-top:0.5rem; }
-    #searchResults div, #friendList div { padding:0.5rem; border-bottom:1px solid #ddd; cursor:pointer; }
-    #chatWindow { margin-top:1rem; }
-    #messages { height:150px; overflow-y:auto; border:1px solid #ccc; padding:0.5rem; margin-bottom:0.5rem; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -55,7 +38,7 @@
 
   <!-- Create Post -->
   <section id="create" class="section">
-    <h2>Create Post</n2>
+    <h2>Create Post</h2>
     <textarea id="postText" placeholder="What's on your mind?"></textarea>
     <input id="postImage" type="file" accept="image/*">
     <button onclick="createPost()">Share</button>
@@ -65,6 +48,7 @@
   <section id="search" class="section">
     <h2>Search Users</h2>
     <input id="searchInput" type="text" placeholder="Search by username">
+    <button onclick="searchUsers()">Search</button>
     <div id="searchResults"></div>
   </section>
 
@@ -97,121 +81,6 @@
     <p>Email: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
   </footer>
 
-  <!-- JavaScript -->
-  <script>
-    let users = JSON.parse(localStorage.getItem('st_users')||'[]');
-    let posts = JSON.parse(localStorage.getItem('st_posts')||'[]');
-    let chats = JSON.parse(localStorage.getItem('st_chats')||'{}');
-    let current = JSON.parse(localStorage.getItem('st_current')||'null');
-
-    // Initialize
-    window.onload = () => {
-      if (current) {
-        showNav(); showSection('home'); updateFeed(); populateFriends();
-      }
-    };
-
-    function save() {
-      localStorage.setItem('st_users', JSON.stringify(users));
-      localStorage.setItem('st_posts', JSON.stringify(posts));
-      localStorage.setItem('st_chats', JSON.stringify(chats));
-      localStorage.setItem('st_current', JSON.stringify(current));
-    }
-
-    function registerOrLogin() {
-      const u = document.getElementById('regUsername').value.trim();
-      const p = document.getElementById('regPassword').value;
-      if (!u||!p) return alert('Enter credentials');
-      let user = users.find(x=>x.username===u);
-      if (user) {
-        if (user.password!==p) return alert('Wrong password');
-      } else {
-        user = {username:u,password:p,bio:'',profile:''};
-        users.push(user);
-        chats[u]={};
-      }
-      current = user; save(); showNav(); showSection('home'); updateFeed(); populateFriends();
-    }
-
-    function showNav() { document.getElementById('registration').style.display='none'; document.getElementById('nav').style.display='block'; }
-    function logout() { localStorage.removeItem('st_current'); location.reload(); }
-
-    function hideAll() { ['home','create','search','chat','settings'].forEach(id=>document.getElementById(id).style.display='none'); }
-    function showSection(id) { hideAll(); document.getElementById(id).style.display='block'; if(id==='home') updateFeed(); }
-
-    function updateFeed() {
-      const f=document.getElementById('feed'); f.innerHTML='';
-      posts.slice().reverse().forEach(post=>{
-        const d=document.createElement('div'); d.className='post';
-        d.innerHTML= '<strong>'+post.user+':</strong> '+post.text + (post.img?'<img src="'+post.img+'">':'');
-        f.appendChild(d);
-      });
-    }
-
-    function createPost() {
-      const text=document.getElementById('postText').value;
-      const imgFile=document.getElementById('postImage').files[0];
-      const post={user:current.username,text,img:''};
-      if(imgFile) post.img=URL.createObjectURL(imgFile);
-      posts.push(post); save(); updateFeed();
-      document.getElementById('postText').value='';
-      document.getElementById('postImage').value='';
-      alert('Posted!');
-    }
-
-    function searchUsers() {
-      const q=document.getElementById('searchInput').value.toLowerCase();
-      const r=document.getElementById('searchResults'); r.innerHTML='';
-      users.filter(u=>u.username.toLowerCase().includes(q)).forEach(u=>{
-        const div=document.createElement('div'); div.textContent=u.username; r.appendChild(div);
-      });
-    }
-
-    function populateFriends() {
-      const fl=document.getElementById('friendList'); fl.innerHTML='';
-      users.filter(u=>u.username!==current.username).forEach(u=>{
-        const div=document.createElement('div'); div.textContent=u.username;
-        div.onclick=()=>openChat(u.username);
-        fl.appendChild(div);
-      });
-    }
-
-    function openChat(friend) {
-      showSection('chat'); document.getElementById('chatWith').textContent='Chat with '+friend;
-      const msgBox=document.getElementById('messages'); msgBox.innerHTML='';
-      const conv=chats[current.username][friend]||[];
-      conv.forEach(m=>{ const p=document.createElement('p'); p.textContent=m; msgBox.appendChild(p); });
-      document.getElementById('chatInput').value='';
-    }
-
-    function sendMessage() {
-      const friend=document.getElementById('chatWith').textContent.replace('Chat with ','');
-      const m=document.getElementById('chatInput').value.trim(); if(!m) return;
-      chats[current.username][friend]=chats[current.username][friend]||[];
-      chats[current.username][friend].push(m);
-      save(); openChat(friend);
-    }
-
-    function deleteChat() {
-      const friend=document.getElementById('chatWith').textContent.replace('Chat with ','');
-      chats[current.username][friend]=[]; save(); openChat(friend);
-    }
-
-    function toggleDark() { document.body.classList.toggle('dark'); }
-
-    function changeUsername() {
-      const nu=prompt('New username:',current.username);
-      if(nu && !users.find(u=>u.username===nu)) {
-        users.find(u=>u.username===current.username).username=nu;
-        chats[nu]=chats[current.username]; delete chats[current.username];
-        current.username=nu; save(); alert('Username changed'); showSection('settings');
-      } else alert('Invalid or taken');
-    }
-
-    function changePassword() {
-      const np=prompt('New password:'); if(np) { users.find(u=>u.username===current.username).password=np; save(); alert('Password updated'); }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
-
