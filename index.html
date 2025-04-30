@@ -1,67 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soul Talk - Social Media</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soul Talk - Social Media Platform</title>
+  <link rel="stylesheet" href="style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8NMYLG793"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-Q8NMYLG793');
+  </script>
 </head>
 <body>
-
-<header>
-    <h1>Welcome to <span class="highlighted">Soul Talk</span> - By Khushwant Yadav</h1>
-    <p>Your social media platform!</p>
-</header>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8NMYLG793"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Q8NMYLG793');
-</script>
-<!-- Registration/Login Section -->
-<section id="loginSection">
-    <input type="text" id="username" placeholder="Enter username">
-    <button onclick="registerUser()">Register</button>
-</section>
-
-<!-- Main App Section -->
-<section id="appSection" style="display:none;">
-    <div id="profileSection">
-        <h2>Your Profile</h2>
-        <button onclick="logout()">Logout</button>
-        <div id="profileInfo"></div>
+  <header class="header">
+    <div class="logo">Soul Talk</div>
+    <div class="nav">
+      <button onclick="explore()">Explore</button>
+      <button onclick="searchUser()">Search</button>
+      <button onclick="logout()">Logout</button>
+      <button onclick="openSettings()">Settings</button>
     </div>
+  </header>
 
-    <div id="feed">
-        <h2>Home Feed</h2>
-        <div id="posts"></div>
-        <div id="newPost">
-            <input type="file" id="newPostImage" accept="image/*"><br>
-            <button onclick="createPost()">Post Image</button>
-        </div>
-    </div>
+  <main class="main">
+    <section class="profile">
+      <img id="profilePic" src="default-profile.png" alt="Profile Picture" />
+      <h2 id="usernameDisplay">@yourusername</h2>
+      <p id="bio">This is your bio.</p>
+      <input type="file" id="uploadProfilePic" />
+      <input type="text" id="bioInput" placeholder="Update your bio" />
+      <button onclick="updateProfile()">Update Profile</button>
+    </section>
 
-    <!-- Chat Section (Bottom Left) -->
-    <div id="chatSection">
-        <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
-        <div id="chatList">
-            <h3>Chat List</h3>
-            <ul id="chatUsers"></ul>
-        </div>
-        <div id="helpSection">
-            <h3>Help</h3>
-            <p>Contact us at: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
-        </div>
-    </div>
-</section>
+    <section class="new-post">
+      <h3>Create a Post</h3>
+      <input type="file" id="postImage" />
+      <textarea id="postCaption" placeholder="Say something..."></textarea>
+      <button onclick="createPost()">Share Post</button>
+    </section>
 
-<footer>
+    <section class="feed" id="feed">
+      <!-- Example post -->
+      <div class="post">
+        <img src="sample.jpg" alt="Post Image" />
+        <div class="post-actions">
+          <span onclick="react('❤️')">❤️</span>
+          <span onclick="react('😂')">😂</span>
+          <span onclick="react('👍')">👍</span>
+          <div class="options">⋮
+            <div class="dropdown">
+              <button onclick="sharePost()">Share</button>
+              <button onclick="deletePost(this)">Delete</button>
+            </div>
+          </div>
+        </div>
+        <p class="caption">This is a sample caption.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Need help? Email: <a href="mailto:ceokhushu@gmail.com">ceokhushu@gmail.com</a></p>
     <p>Made with ❤️ by Khushwant Yadav</p>
-</footer>
+  </footer>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
