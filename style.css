@@ -1,124 +1,55 @@
-/* Basic Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fafafa;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
-header {
-    text-align: center;
-    padding: 20px;
-    background-color: #ffffff;
+.header {
+  background-color: #4a148c;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
 }
 
-h1 {
-    color: #007bff;
-    font-size: 2em;
+.container {
+  padding: 1rem;
+  max-width: 800px;
+  margin: auto;
 }
 
-.highlighted {
-    color: #ff6347;
-    font-weight: bold;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #0056b3;
+.auth, .feed, .chat, .help {
+  background: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 input[type="text"], input[type="file"] {
-    padding: 10px;
-    margin: 10px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-#feed {
-    padding: 20px;
-    width: 60%;
-    margin-top: 20px;
-    background-color: white;
-    border-radius: 10px;
+button {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-#newPost {
-    margin-top: 20px;
+button:hover {
+  background-color: #4a148c;
 }
 
-#profileSection {
-    text-align: center;
-}
-
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #f1f1f1;
-    font-size: 0.9em;
-    color: gray;
-}
-
-/* Chat List and Help Section Styles */
-#chatSection {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: #fff;
-    width: 250px;
-    height: 400px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 10px;
-    border-top-right-radius: 10px;
-    display: none;
-}
-
-#chatList {
-    margin-bottom: 20px;
-}
-
-#chatList h3 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-#chatList ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#chatList ul li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-#helpSection {
-    margin-top: 10px;
-    font-size: 0.9em;
-}
-
-#themeToggle {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-#themeToggle:hover {
-    background-color: #0056b3;
+.footer {
+  background-color: #eee;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
 }
